@@ -9,14 +9,13 @@
  	<key>Input</key>
  	<dict>
  		<key>NAME</key>
- 		<string>Mozilla Firefox</string>
+ 		<string>Firefox</string>
          <key>fw_destination_root</key>
          <string>/Applications/%NAME%.app</string>
  	</dict>
  	<key>MinimumVersion</key>
  	<string>0.2.0</string>
  	<key>ParentRecipe</key>
-	<string>com.github.autopkg.download.firefox</string>
 	<string>com.github.autopkg.download.firefox-rc-en_US</string>
  	<key>Process</key>
  	<array>
