@@ -3,71 +3,59 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Downloads the latest Firefox disk image and imports into FileWave.</string>
+	<string>Downloads the latest version of Mozilla Firefox ESR for Mac.</string>
 	<key>Identifier</key>
-	<string>com.github.jerac0.filewave-recipes.firefox</string>
+	<string>com.github.gilbertpalau-recipes.download.FirefoxESR-Mac</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
-		<string>Firefox</string>
-        <key>fw_destination_root</key>
-        <string>/Applications/%NAME%.app</string>
+		<string>Firefox ESR</string>
+		<key>DOWNLOAD_URL</key>
+<string>https://download.mozilla.org/?product=firefox-esr-latest&amp;os=osx&amp;lang=en-US</string>
 	</dict>
-	<key>MinimumVersion</key>
-	<string>0.4.1</string>
 	<key>ParentRecipe</key>
 	<string>com.github.autopkg.download.firefox-rc-en_US</string>
-	<key>Process</key>
-	<array>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>dmg_path</key>
-				<string>%pathname%</string>
-			</dict>
-			<key>Processor</key>
-			<string>AppDmgVersioner</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>pkgdirs</key>
-				<dict>
-					<key>Applications</key>
-					<string>0775</string>
-				</dict>
-				<key>pkgroot</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%</string>
-			</dict>
-			<key>Processor</key>
-			<string>PkgRootCreator</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>destination_path</key>
-				<string>%pkgroot%/Applications/%app_name%</string>
-				<key>source_path</key>
-				<string>%pathname%/%app_name%</string>
-			</dict>
-			<key>Processor</key>
-			<string>Copier</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>fw_app_bundle_id</key>
-				<string>%bundleid%</string>
-				<key>fw_app_version</key>
-				<string>%version%</string>
-				<key>fw_fileset_name</key>
-				<string>%NAME% - %version%</string>
-				<key>fw_import_source</key>
-				<string>%pkgroot%/Applications/%app_name%</string>
-			</dict>
-			<key>Processor</key>
-			<string>com.github.autopkg.filewave.FWTool/FileWaveImporter</string>
-		</dict>
-	</array>
+    	<key>MinimumVersion</key>
+    	<string>0.4.1</string>
+    	<key>Process</key>
+    	<array>
+        	<dict>
+            	<key>Arguments</key>
+            	<dict>
+                	<key>product_name</key>
+                	<string>firefox</string>
+                	<key>release</key>
+                	<string>%RELEASE%</string>
+                	<key>locale</key>
+                	<string>%LOCALE%</string>
+            	</dict>
+                <key>Processor</key>
+                <string>MozillaURLProvider</string>
+        	</dict>
+        	<dict>
+            	<key>Arguments</key>
+            	<dict>
+                	<key>filename</key>
+                	<string>%NAME%.dmg</string>
+            	</dict>
+            	<key>Processor</key>
+            	<string>URLDownloader</string>
+        	</dict>
+        	<dict>
+            	<key>Processor</key>
+            	<string>EndOfCheckPhase</string>
+        	</dict>
+        	<dict>
+            	<key>Processor</key>
+            	<string>CodeSignatureVerifier</string>
+            	<key>Arguments</key>
+            	<dict>
+                	<key>input_path</key>
+                	<string>%pathname%/Firefox.app</string>
+                	<key>requirement</key>
+                	<string>anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "43AQ936H96"</string>
+            	</dict>
+        	</dict>
+    </array>
 </dict>
 </plist>
